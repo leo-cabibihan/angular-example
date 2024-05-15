@@ -3,16 +3,17 @@ import {CommonModule} from '@angular/common';
 import {HousingLocationComponent} from '../housing-location/housing-location.component';
 import {HousingLocation} from "../housing-location";
 import {HousingService} from "../housing.service";
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HousingLocationComponent],
+  imports: [CommonModule, HousingLocationComponent, ReactiveFormsModule],
   template: `
     <section>
-      <form>
-        <input type="text" placeholder="Filter by city" #filter>
-        <button class="primary" type="button" (click)="filterResults(filter.value)">Search</button>
+      <form [formGroup]="applyForm" (submit)="filterResults()">
+        <input type="text" placeholder="Filter by city" formControlName="search">
+        <button class="primary" type="submit">Search</button>
       </form>
     </section>
     <section class="results">
@@ -26,7 +27,13 @@ export class HomeComponent {
   housingLocationList: HousingLocation[] = [];
   housingService: HousingService = inject(HousingService);
   
-  filterResults(text: string) {
+  applyForm= new FormGroup({
+    search: new FormControl('')
+  });
+
+  filterResults() {
+    const text = this.applyForm.value.search
+
     if (!text) {
       this.filteredLocationList = this.housingLocationList;
       return;
