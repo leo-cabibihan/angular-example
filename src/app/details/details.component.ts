@@ -109,7 +109,6 @@ export class DetailsComponent {
       this.applyForm?.value.lastName ?? '',
       this.applyForm?.value.email ?? '',
     );
-
   }
 
 

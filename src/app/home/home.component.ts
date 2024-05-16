@@ -4,12 +4,14 @@ import {HousingLocationComponent} from '../housing-location/housing-location.com
 import {HousingLocation} from "../housing-location";
 import {HousingService} from "../housing.service";
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {RouterLink, RouterOutlet} from "@angular/router";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HousingLocationComponent, ReactiveFormsModule],
+  imports: [CommonModule, HousingLocationComponent, ReactiveFormsModule, RouterOutlet, RouterLink],
   template: `
+ 
     <section>
       <form [formGroup]="applyForm" (submit)="filterResults()">
         <input type="text" placeholder="Filter by city" formControlName="search">
@@ -19,6 +21,12 @@ import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
     <section class="results">
       <app-housing-location *ngFor="let housingLocation of filteredLocationList" [housingLocation]="housingLocation"></app-housing-location>
     </section>
+    <section>
+      <a class="primary" [routerLink]="['/add']" >
+        Add House
+      </a>
+    </section>
+    
   `,
   styleUrls: ['./home.component.css'],
 })

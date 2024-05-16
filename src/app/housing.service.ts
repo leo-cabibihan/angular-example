@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Optional} from '@angular/core';
 import {HousingLocation} from './housing-location';
 
 @Injectable({
@@ -130,9 +130,22 @@ export class HousingService {
     return data.find((location: HousingLocation) => location.id === id);
   }
 
+    addHouse(housingLocation: Partial<HousingLocation>): void {
+        const locations: HousingLocation[] = JSON.parse(localStorage.getItem(this.localStorageKey) ?? '[]');
+        const lastId = locations.length > 0 ? locations[locations.length - 1].id : 0;
+        const newId = lastId + 1;
+        const newHouse: HousingLocation = <HousingLocation>{ id: newId, ...housingLocation, photo: "assets/" + housingLocation.photo };
+
+        locations.push(newHouse);
 
 
-  submitApplication(firstName: string, lastName: string, email: string) {
+
+        localStorage.setItem(this.localStorageKey, JSON.stringify(locations));
+    }
+
+
+
+    submitApplication(firstName: string, lastName: string, email: string) {
     console.log(
       `Homes application received: firstName: ${firstName}, lastName: ${lastName}, email: ${email}.`,
     );

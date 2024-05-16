@@ -14,10 +14,12 @@ body {
     --shadow-color: #E8E8E8;
 }
 
-button.primary {
+button.primary, a.primary {
     padding: 10px;
     border: solid 1px var(--primary-color);
     background: var(--primary-color);
     color: white;
     border-radius: 8px;
 }
+
+
