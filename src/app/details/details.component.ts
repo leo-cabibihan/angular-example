@@ -36,7 +36,7 @@ import {last} from "rxjs";
           <label for="first-name">First Name</label>
           <input id="first-name" type="text" formControlName="firstName" required/>
 
-          <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)"
+          <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched || isSubmitted)"
                class="alert alert-danger">
                 <div *ngIf="firstName?.hasError('required')">
                   FirstName is required.
@@ -46,7 +46,7 @@ import {last} from "rxjs";
           <label for="last-name">Last Name</label>
           <input id="last-name" type="text" formControlName="lastName"/>
 
-          <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)"
+          <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched || isSubmitted)"
                class="alert alert-danger">
             <div *ngIf="lastName?.hasError('required')">
               LastName is required.
@@ -57,7 +57,7 @@ import {last} from "rxjs";
           <label for="email">Email</label>
           <input id="email" type="email" formControlName="email"/>
 
-          <div *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+          <div *ngIf="email?.invalid && (email?.dirty || email?.touched || isSubmitted)"
                class="alert alert-danger">
             <div *ngIf="email?.hasError('required')">
               Email is required.
@@ -79,7 +79,7 @@ export class DetailsComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
   housingService = inject(HousingService);
   housingLocation: HousingLocation | undefined;
-  
+  isSubmitted = false
   applyForm: FormGroup | undefined
 
   ngOnInit(): void{
@@ -103,6 +103,7 @@ export class DetailsComponent {
   }
 
   submitApplication() {
+    this.isSubmitted = true
     if(this.applyForm?.invalid) return
     this.housingService.submitApplication(
       this.applyForm?.value.firstName ?? '',
