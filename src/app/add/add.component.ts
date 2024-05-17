@@ -17,7 +17,7 @@ import {last} from "rxjs";
         <form [formGroup]="addForm!!" (submit)="submitApplication()">
           <label for="name">Name</label>
           <input id="name" type="text" formControlName="name"/>
-          <div *ngIf="name?.invalid && (name?.dirty || name?.touched)"
+          <div *ngIf="name?.invalid && (name?.dirty || name?.touched || isSubmitted)"
                class="alert alert-danger">
             <div *ngIf="name?.hasError('required')">
               Name is required
@@ -25,7 +25,7 @@ import {last} from "rxjs";
           </div>
           <label for="city">City</label>
           <input id="city" type="text" formControlName="city"/>
-          <div *ngIf="city?.invalid && (city?.dirty || city?.touched)"
+          <div *ngIf="city?.invalid && (city?.dirty || city?.touched || isSubmitted)"
                class="alert alert-danger">
             <div *ngIf="city?.hasError('required')">
               City is required
@@ -33,7 +33,7 @@ import {last} from "rxjs";
           </div>
           <label for="state">State</label>
           <input id="state" type="text" formControlName="state"/>
-          <div *ngIf="state?.invalid && (state?.dirty || state?.touched)"
+          <div *ngIf="state?.invalid && (state?.dirty || state?.touched || isSubmitted)"
                class="alert alert-danger">
             <div *ngIf="state?.hasError('required')">
               State is required
@@ -41,7 +41,7 @@ import {last} from "rxjs";
           </div>
           <label for="photo">Photo</label>
           <input id="photo" type="text" formControlName="photo"/>
-          <div *ngIf="photo?.invalid && (photo?.dirty || photo?.touched)"
+          <div *ngIf="photo?.invalid && (photo?.dirty || photo?.touched || isSubmitted)"
                class="alert alert-danger">
             <div *ngIf="photo?.hasError('required')">
               Photo is required
@@ -49,7 +49,7 @@ import {last} from "rxjs";
           </div>
           <label for="available-units">Available Units</label>
           <input id="available-units" type="number" formControlName="availableUnits"/>
-          <div *ngIf="availableUnits?.invalid && (availableUnits?.dirty || availableUnits?.touched)"
+          <div *ngIf="availableUnits?.invalid && (availableUnits?.dirty || availableUnits?.touched || isSubmitted)"
                class="alert alert-danger">
             <div *ngIf="availableUnits?.hasError('required')">
               Number is required
@@ -63,7 +63,7 @@ import {last} from "rxjs";
             Has Wifi
             <input id="wifi" type="checkbox" formControlName="wifi"/>
           </label>
-          <div *ngIf="wifi?.invalid && (wifi?.dirty || wifi?.touched)"
+          <div *ngIf="wifi?.invalid && (wifi?.dirty || wifi?.touched || isSubmitted)"
                class="alert alert-danger">
             <div *ngIf="wifi?.hasError('required')">
               Wifi is required
@@ -73,7 +73,7 @@ import {last} from "rxjs";
             Has Laundry
             <input id="laundry" type="checkbox" formControlName="laundry"/>
           </label>
-          <div *ngIf="laundry?.invalid && (laundry?.dirty || laundry?.touched)"
+          <div *ngIf="laundry?.invalid && (laundry?.dirty || laundry?.touched || isSubmitted)"
                class="alert alert-danger">
             <div *ngIf="laundry?.hasError('required')">
               Laundry is required
@@ -137,7 +137,7 @@ export class AddComponent {
   }
 
   submitApplication() {
-
+    this.isSubmitted = true
     if(this.addForm?.invalid) return alert("please fix the file before submitting")
     this.housingService.addHouse(this.addForm?.value);
     this.router.navigateByUrl("").then(r => alert("house added successfully"))
